@@ -6,13 +6,12 @@ import Hero from './components/Hero';
 import Footer from './components/Footer';
 
 // Lazy load components with proper error boundaries
-const WhySection = lazy(() => import('./components/WhySection').catch(() => ({ default: () => null })));
-const HowToSection = lazy(() => import('./components/HowToSection').catch(() => ({ default: () => null })));
-const SuccessSection = lazy(() => import('./components/SuccessSection').catch(() => ({ default: () => null })));
-const PortfolioSection = lazy(() => import('./components/PortfolioSection').catch(() => ({ default: () => null })));
-const PricingSection = lazy(() => import('./components/PricingSection').catch(() => ({ default: () => null })));
-const FaqSection = lazy(() => import('./components/FaqSection').catch(() => ({ default: () => null })));
-const NotFound = lazy(() => import('./components/NotFound').catch(() => ({ default: () => null })));
+const WhySection = lazy(() => import('./components/WhySection').catch(() => ({ default: () => <div>Loading...</div> })));
+const HowToSection = lazy(() => import('./components/HowToSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const SuccessSection = lazy(() => import('./components/SuccessSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const PortfolioSection = lazy(() => import('./components/PortfolioSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const PricingSection = lazy(() => import('./components/PricingSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const FaqSection = lazy(() => import('./components/FaqSection').catch(() => ({ default: () => <div>Loading...</div> })));
 
 // Lazy load legal pages
 const PrivacyPolicy = lazy(() => import('./components/legal/PrivacyPolicy').catch(() => ({ default: () => null })));
