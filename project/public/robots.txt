@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://viksai.com/sitemap.xml
