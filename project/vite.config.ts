@@ -5,12 +5,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     sourcemap: false, // Отключает source maps в продакшене
-    brotliSize: false, // Уменьшает размер сборки
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 600, // Оставляем предупреждение о размере чанков
     rollupOptions: {
       input: {
-        main: 'index.html',
-        notfound: 'public/404.html' // Добавляем 404.html в билд
+        main: 'index.html'
       },
       output: {
         manualChunks: {
@@ -29,5 +27,9 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true
+  },
+  publicDir: "public", // Загружаем файлы из public
+  define: {
+    "process.env.NODE_ENV": JSON.stringify("production") // Исправляет ошибки с process.env
   }
 });
