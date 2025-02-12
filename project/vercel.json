@@ -5,5 +5,6 @@
   ],
   "redirects": [
     { "source": "/404", "destination": "/404.html", "statusCode": 404 }
-  ]
+  ],
+  "errorPage": "/404.html"
 }
