@@ -10,5 +10,8 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "staticFiles": {
+    "public/404.html": "/404.html"
+  }
 }
