@@ -8,6 +8,10 @@ export default defineConfig({
     brotliSize: false, // Уменьшает размер сборки
     chunkSizeWarningLimit: 600,
     rollupOptions: {
+      input: {
+        main: 'index.html',
+        notfound: 'public/404.html' // Добавляем 404.html в билд
+      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
