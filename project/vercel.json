@@ -1,10 +1,14 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "redirects": [
-    { "source": "/404", "destination": "/404.html", "statusCode": 404 }
-  ],
-  "errorPage": "/404.html"
+  "routes": [
+    {
+      "src": "/404",
+      "status": 404,
+      "dest": "/404.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
