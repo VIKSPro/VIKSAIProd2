@@ -1,194 +1,82 @@
-import { useEffect, Suspense, lazy, useState, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import LoadingPage from './components/LoadingPage';
 import ErrorBoundary from './components/ErrorBoundary';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
+import NotFound from './components/NotFound';
 
-// Lazy load components with proper error boundaries
-const WhySection = lazy(() => import('./components/WhySection').catch(() => ({ default: () => <div>Loading...</div> })));
-const HowToSection = lazy(() => import('./components/HowToSection').catch(() => ({ default: () => <div>Loading...</div> })));
-const SuccessSection = lazy(() => import('./components/SuccessSection').catch(() => ({ default: () => <div>Loading...</div> })));
-const PortfolioSection = lazy(() => import('./components/PortfolioSection').catch(() => ({ default: () => <div>Loading...</div> })));
-const PricingSection = lazy(() => import('./components/PricingSection').catch(() => ({ default: () => <div>Loading...</div> })));
-const FaqSection = lazy(() => import('./components/FaqSection').catch(() => ({ default: () => <div>Loading...</div> })));
+// Lazy load components
+const WhySection = lazy(() => import('./components/WhySection'));
+const HowToSection = lazy(() => import('./components/HowToSection'));
+const SuccessSection = lazy(() => import('./components/SuccessSection'));
+const PortfolioSection = lazy(() => import('./components/PortfolioSection'));
+const PricingSection = lazy(() => import('./components/PricingSection'));
+const FaqSection = lazy(() => import('./components/FaqSection'));
 
 // Lazy load legal pages
-const PrivacyPolicy = lazy(() => import('./components/legal/PrivacyPolicy').catch(() => ({ default: () => null })));
-const TermsOfService = lazy(() => import('./components/legal/TermsOfService').catch(() => ({ default: () => null })));
-const CookiePolicy = lazy(() => import('./components/legal/CookiePolicy').catch(() => ({ default: () => null })));
+const PrivacyPolicy = lazy(() => import('./components/legal/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./components/legal/TermsOfService'));
+const CookiePolicy = lazy(() => import('./components/legal/CookiePolicy'));
 
 export default function App() {
-  const [pathname, setPathname] = useState(window.location.pathname);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const navigate = useCallback((path: string) => {
-    try {
-      window.history.pushState({}, '', path);
-      setPathname(path);
-      updateMetaTags(path);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (error) {
-      console.error('Navigation error:', error);
-    }
-  }, []);
-
-  const updateMetaTags = useCallback((path: string) => {
-    try {
-      let title = 'VIKS AI - Professional AI Avatars for Video Marketing';
-      let description = 'Create engaging video content with ultra-realistic AI avatars. Perfect for businesses, startups, and marketers looking to scale their video production.';
-
-      switch (path) {
-        case '/404':
-          title = '404 - Page Not Found | VIKS AI';
-          description = 'The page you are looking for could not be found.';
-          break;
-        case '/privacy':
-          title = 'Privacy Policy | VIKS AI';
-          description = 'Learn about how VIKS AI protects your privacy and handles your data.';
-          break;
-        case '/terms':
-          title = 'Terms of Service | VIKS AI';
-          description = 'Read our terms of service and usage guidelines.';
-          break;
-        case '/cookies':
-          title = 'Cookie Policy | VIKS AI';
-          description = 'Understand how VIKS AI uses cookies to improve your experience.';
-          break;
-      }
-
-      document.title = title;
-      document.querySelector('meta[name="description"]')?.setAttribute('content', description);
-      document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
-      document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
-      document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title);
-      document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
-    } catch (error) {
-      console.error('Error updating meta tags:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    const handlePopState = () => {
-      try {
-        const newPath = window.location.pathname;
-        setPathname(newPath);
-        updateMetaTags(newPath);
-      } catch (error) {
-        console.error('PopState error:', error);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, [updateMetaTags]);
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      try {
-        const target = e.target as HTMLElement;
-        const anchor = target.closest('a');
-        
-        if (anchor?.href && anchor.href.startsWith(window.location.origin)) {
-          e.preventDefault();
-          const newPath = anchor.href.slice(window.location.origin.length);
-          navigate(newPath);
-        }
-      } catch (error) {
-        console.error('Click handler error:', error);
-      }
-    };
-
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  }, [navigate]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
-  const renderContent = () => {
-    try {
-      switch (pathname) {
-        case '/':
-          return (
-            <ErrorBoundary>
-              <Hero />
-              <Suspense fallback={<LoadingPage />}>
-                <WhySection />
-                <HowToSection />
-                <SuccessSection />
-                <PortfolioSection />
-                <PricingSection />
-                <FaqSection />
-              </Suspense>
-            </ErrorBoundary>
-          );
-        case '/privacy':
-          return (
-            <Suspense fallback={<LoadingPage />}>
-              <ErrorBoundary>
-                <div className="min-h-screen">
-                  <PrivacyPolicy />
-                </div>
-              </ErrorBoundary>
-            </Suspense>
-          );
-        case '/terms':
-          return (
-            <Suspense fallback={<LoadingPage />}>
-              <ErrorBoundary>
-                <div className="min-h-screen">
-                  <TermsOfService />
-                </div>
-              </ErrorBoundary>
-            </Suspense>
-          );
-        case '/cookies':
-          return (
-            <Suspense fallback={<LoadingPage />}>
-              <ErrorBoundary>
-                <div className="min-h-screen">
-                  <CookiePolicy />
-                </div>
-              </ErrorBoundary>
-            </Suspense>
-          );
-        default:
-          if (!pathname.includes('.') && pathname !== '/') {
-            return (
-              <Suspense fallback={<LoadingPage />}>
-                <ErrorBoundary>
-                  <NotFound />
-                </ErrorBoundary>
-              </Suspense>
-            );
-          }
-          return null;
-      }
-    } catch (error) {
-      console.error('Render error:', error);
-      return <ErrorBoundary />;
-    }
-  };
-
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-b from-black to-black/95 text-white overflow-x-hidden relative">
-        <Navbar hidden={pathname === '/404'} />
-        <main>
-          {renderContent()}
-        </main>
-        <Footer />
-      </div>
-    </ErrorBoundary>
+    <Router>
+      <ErrorBoundary>
+        <div className="min-h-screen bg-gradient-to-b from-black to-black/95 text-white overflow-x-hidden relative">
+          <Navbar />
+          <main>
+            <Routes>
+              {/* Главная страница */}
+              <Route
+                path="/"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <Hero />
+                    <WhySection />
+                    <HowToSection />
+                    <SuccessSection />
+                    <PortfolioSection />
+                    <PricingSection />
+                    <FaqSection />
+                  </Suspense>
+                }
+              />
+              
+              {/* Страницы политики */}
+              <Route
+                path="/privacy"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <PrivacyPolicy />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/terms"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <TermsOfService />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/cookies"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <CookiePolicy />
+                  </Suspense>
+                }
+              />
+
+              {/* Обработка 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
+    </Router>
   );
 }
