@@ -1,4 +1,4 @@
-impimport { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoModal from './VideoModal';
 
