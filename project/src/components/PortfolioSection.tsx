@@ -1,12 +1,18 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoModal from './VideoModal';
 
 export default function PortfolioSection() {
+  // Ссылка на контейнер с карточками
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Храним текущую позицию прокрутки
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  // Храним выбранный для просмотра видео URL
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
+  // Массив элементов портфолио
   const portfolioItems = [
     {
       thumbnail: 'https://images.unsplash.com/photo-1607968565043-36af90dde238?auto=format&fit=crop&q=80&w=1935',
@@ -35,14 +41,16 @@ export default function PortfolioSection() {
     }
   ];
 
+  // Функция для прокрутки контейнера влево или вправо
   const scroll = (direction: 'left' | 'right') => {
     const container = scrollRef.current;
     if (!container) return;
 
     const scrollAmount = 300;
-    const newPosition = direction === 'left' 
-      ? scrollPosition - scrollAmount 
-      : scrollPosition + scrollAmount;
+    const newPosition =
+      direction === 'left'
+        ? scrollPosition - scrollAmount
+        : scrollPosition + scrollAmount;
 
     container.scrollTo({
       left: newPosition,
@@ -69,7 +77,7 @@ export default function PortfolioSection() {
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
-          
+
           <button
             onClick={() => scroll('right')}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/80 p-2 rounded-full hover:bg-black/90 transition-colors"
@@ -103,6 +111,7 @@ export default function PortfolioSection() {
             ))}
           </div>
         </div>
+
         <VideoModal
           videoUrl={selectedVideo || ''}
           isOpen={!!selectedVideo}
