@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
 import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
 
 // Описываем интерфейсы для наших ссылок
 interface QuickLink {
