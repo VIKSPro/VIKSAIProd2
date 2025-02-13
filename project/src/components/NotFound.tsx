@@ -1,27 +1,18 @@
-import { useState } from 'react';
-import { Home, Search, Compass, ArrowLeft, Brain } from 'lucide-react';
+import React from 'react';
+import { ArrowLeft, Brain } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
 export default function NotFound() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const path = e.currentTarget.getAttribute('href') || '/';
-    window.history.pushState({}, '', path);
-    window.dispatchEvent(new Event('pushstate'));
-    window.scrollTo(0, 0);
-  };
-
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#75d031]/20 via-black to-black text-white flex flex-col relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 py-6">
         <div className="mb-8">
-          <a href="/" onClick={handleHomeClick} className="inline-block">
+          <Link to="/" className="inline-block">
             <Logo />
-          </a>
+          </Link>
         </div>
 
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center max-w-4xl mx-auto">
@@ -29,7 +20,7 @@ export default function NotFound() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
               <div className="absolute inset-0 bg-[#75d031]/30 blur-[100px] rounded-full animate-pulse" />
             </div>
-            
+
             <div className="relative flex items-center justify-center mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-[#75d031]/20 to-[#4a8c13]/20 blur-2xl rounded-full" />
               <Brain className="relative w-32 h-32 text-[#75d031] animate-float transform-gpu" />
@@ -49,29 +40,28 @@ export default function NotFound() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <a
-              href="/"
-              onClick={handleHomeClick}
+            <Link
+              to="/"
               className="group inline-flex items-center justify-center px-8 py-4 bg-[#75d031] hover:bg-[#4a8c13] text-white rounded-full transition-all duration-300 min-w-[200px] relative overflow-hidden transform hover:scale-105"
             >
               <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               <ArrowLeft className="w-5 h-5 mr-2 relative" />
               <span className="relative">Back to Homepage</span>
-            </a>
+            </Link>
           </div>
 
           <div className="mt-12 pt-8">
             <p className="text-gray-400">
               Quick Links:
-              <a href="#why" onClick={handleHomeClick} className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] ml-4 mr-6 transition-colors">
+              <Link to="/#why" className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] ml-4 mr-6 transition-colors">
                 Why AI Avatars
-              </a>
-              <a href="#portfolio" onClick={handleHomeClick} className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] mr-6 transition-colors">
+              </Link>
+              <Link to="/#portfolio" className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] mr-6 transition-colors">
                 Portfolio
-              </a>
-              <a href="#pricing" onClick={handleHomeClick} className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] transition-colors">
+              </Link>
+              <Link to="/#pricing" className="inline-flex items-center text-[#75d031] hover:text-[#4a8c13] transition-colors">
                 Pricing
-              </a>
+              </Link>
             </p>
           </div>
         </div>

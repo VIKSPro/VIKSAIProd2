@@ -1,28 +1,5 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
-import { Link as RouterLink } from 'react-router-dom';
-
-interface QuickLink {
-  href: string;
-  text: string;
-}
-
-interface LegalLink {
-  href: string;
-  text: string;
-}
-
-interface ContactLink {
-  icon: React.ComponentType<{ className?: string }>;
-  href?: string;
-  text: string;
-}
-
-interface Links {
-  quick: QuickLink[];
-  legal: LegalLink[];
-  contact: ContactLink[];
-}
 
 const links: Links = {
   quick: [
@@ -57,22 +34,16 @@ const links: Links = {
 };
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const isExternal =
-    href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
+  const isExternal = href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
   
-  return isExternal ? (
-    <a
+  return (
+    <a 
       href={href}
       className="text-gray-400 hover:text-white transition-colors"
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}
     </a>
-  ) : (
-    <RouterLink to={href} className="text-gray-400 hover:text-white transition-colors">
-      {children}
-    </RouterLink>
   );
 }
 

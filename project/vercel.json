@@ -1,9 +1,17 @@
 {
   "cleanUrls": true,
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/404.html",
+      "dest": "/404.html",
+      "status": 404
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ],
-  "errorPages": {
-    "404": "/404.html"
+  "staticFiles": {
+    "public/404.html": "/404.html"
   }
 }
