@@ -1,6 +1,32 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
+import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
 
+// Описываем интерфейсы для наших ссылок
+interface QuickLink {
+  href: string;
+  text: string;
+}
+
+interface LegalLink {
+  href: string;
+  text: string;
+}
+
+interface ContactLink {
+  icon: React.ComponentType<{ className?: string }>;
+  href?: string;
+  text: string;
+}
+
+interface Links {
+  quick: QuickLink[];
+  legal: LegalLink[];
+  contact: ContactLink[];
+}
+
+// Без "as const" — во избежание конфликтов и ошибок типизации
 const links: Links = {
   quick: [
     { href: '#why', text: 'Why AI Avatars' },
@@ -34,16 +60,28 @@ const links: Links = {
 };
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const isExternal = href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
-  
+  // Определяем, является ли ссылка внешней
+  const isExternal =
+    href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
+
+  // Для внешних ссылок используем <a>, для внутренних — <RouterLink>
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        className="text-gray-400 hover:text-white transition-colors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a 
-      href={href}
-      className="text-gray-400 hover:text-white transition-colors"
-      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
+    <RouterLink to={href} className="text-gray-400 hover:text-white transition-colors">
       {children}
-    </a>
+    </RouterLink>
   );
 }
 
@@ -64,7 +102,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {links.quick.map(link => (
+              {links.quick.map((link) => (
                 <li key={link.href}>
                   <FooterLink href={link.href}>{link.text}</FooterLink>
                 </li>
@@ -91,7 +129,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              {links.legal.map(link => (
+              {links.legal.map((link) => (
                 <li key={link.href}>
                   <FooterLink href={link.href}>{link.text}</FooterLink>
                 </li>
