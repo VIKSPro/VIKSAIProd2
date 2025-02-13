@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+impimport { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoModal from './VideoModal';
 
@@ -15,27 +15,32 @@ export default function PortfolioSection() {
   // Массив элементов портфолио
   const portfolioItems = [
     {
-      thumbnail: 'https://images.unsplash.com/photo-1607968565043-36af90dde238?auto=format&fit=crop&q=80&w=1935',
+      thumbnail:
+        'https://images.unsplash.com/photo-1607968565043-36af90dde238?auto=format&fit=crop&q=80&w=1935',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       title: 'Product Demo'
     },
     {
-      thumbnail: 'https://images.unsplash.com/photo-1626544827763-d516dce335e2?auto=format&fit=crop&q=80&w=1974',
+      thumbnail:
+        'https://images.unsplash.com/photo-1626544827763-d516dce335e2?auto=format&fit=crop&q=80&w=1974',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       title: 'Company Overview'
     },
     {
-      thumbnail: 'https://images.unsplash.com/photo-1618004912476-29818d81ae2e?auto=format&fit=crop&q=80&w=1964',
+      thumbnail:
+        'https://images.unsplash.com/photo-1618004912476-29818d81ae2e?auto=format&fit=crop&q=80&w=1964',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       title: 'Tutorial Series'
     },
     {
-      thumbnail: 'https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?auto=format&fit=crop&q=80&w=2070',
+      thumbnail:
+        'https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?auto=format&fit=crop&q=80&w=2070',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       title: 'Marketing Campaign'
     },
     {
-      thumbnail: 'https://images.unsplash.com/photo-1642132652075-2b0d0ae80e61?auto=format&fit=crop&q=80&w=2070',
+      thumbnail:
+        'https://images.unsplash.com/photo-1642132652075-2b0d0ae80e61?auto=format&fit=crop&q=80&w=2070',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
       title: 'Social Media Ad'
     }
