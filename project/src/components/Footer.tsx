@@ -1,7 +1,30 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
+import { Link as RouterLink } from 'react-router-dom';
 
-const links = {
+interface QuickLink {
+  href: string;
+  text: string;
+}
+
+interface LegalLink {
+  href: string;
+  text: string;
+}
+
+interface ContactLink {
+  icon: React.ComponentType<{ className?: string }>;
+  href?: string;
+  text: string;
+}
+
+interface Links {
+  quick: QuickLink[];
+  legal: LegalLink[];
+  contact: ContactLink[];
+}
+
+const links: Links = {
   quick: [
     { href: '#why', text: 'Why AI Avatars' },
     { href: '#how', text: 'How to Use' },
@@ -31,19 +54,25 @@ const links = {
       text: 'San Francisco Bay Area'
     }
   ]
-} as const;
+};
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const isExternal = href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
+  const isExternal =
+    href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
   
-  return (
-    <a 
+  return isExternal ? (
+    <a
       href={href}
       className="text-gray-400 hover:text-white transition-colors"
-      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {children}
     </a>
+  ) : (
+    <RouterLink to={href} className="text-gray-400 hover:text-white transition-colors">
+      {children}
+    </RouterLink>
   );
 }
 
