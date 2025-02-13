@@ -1,5 +1,7 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
+import { Link as RouterLink } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const links = {
   quick: [
@@ -34,16 +36,36 @@ const links = {
 } as const;
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  // Определяем, является ли ссылка внешней
   const isExternal = href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:');
-  
+
+  // Если ссылка внешняя, отдаем обычный <a>
+  if (isExternal) {
+    return (
+      <a 
+        href={href}
+        className="text-gray-400 hover:text-white transition-colors"
+        target="_blank" rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+
+  // Если ссылка начинается с "#", используем HashLink для плавного скролла
+  if (href.startsWith('#')) {
+    return (
+      <HashLink smooth to={href} className="text-gray-400 hover:text-white transition-colors">
+        {children}
+      </HashLink>
+    );
+  }
+
+  // Для остальных внутренних ссылок используем Link из react-router-dom
   return (
-    <a 
-      href={href}
-      className="text-gray-400 hover:text-white transition-colors"
-      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
+    <RouterLink to={href} className="text-gray-400 hover:text-white transition-colors">
       {children}
-    </a>
+    </RouterLink>
   );
 }
 
